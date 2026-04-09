@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Análise de Risco – RC Profissional Dentistas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    color: #1e2a38;
+}
+
+.desc {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section {
+    margin-bottom: 40px;
+}
+
+.section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e2a38;
+    margin-bottom: 15px;
+}
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 15px; /* <-- ADICIONE ISSO */
+    display: block;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: none;
+    background: #e9edf3;
+}
+
+/* ===== PILLS ===== */
+.pill-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px; /* espaço entre grupos */
+}
+
+.pill {
+    border: 1px solid #ccd3dd;
+    border-radius: 25px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    background: #f5f7fb;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.pill input {
+    display: none;
+}
+
+.pill.selected {
+    background: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    transform: scale(1.08);
+    font-weight: 600;
+}
+.pill {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.pill.selected::before {
+    content: "✓";
+    margin-right: 6px;
+}
+/* BOTÃO */
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.hidden {
+    display: none;
+}
+.checkbox-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkbox-item input {
+    width: auto;
+    margin-top: 3px;
+}
+.radio-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.radio-option {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    background: #e9edf3;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.radio-small .radio-option {
+    flex: 0;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.radio-option input {
+    display: none;
+}
+
+.radio-option input:checked + span {
+    font-weight: bold;
+}
+
+.radio-option input:checked + span,
+.radio-option input:checked + span {
+    color: #fff;
+}
+
+.radio-option:has(input:checked) {
+    background: #007BFF;
+    color: #fff;
+}
+.radio-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.section .radio-group {
+    margin-top: 15px;
+}
+.group-title {
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-weight: bold;
+    color: #1e2a38;
+    font-size: 15px; /* leve aumento */
+}
+.pill:hover {
+    border-color: #007BFF;
+    transform: scale(1.03);
+}
+.pill {
+    user-select: none;
+}
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.desc {
+    font-size: 16px;
+    color: #6c757d;
+}
+* {
+    transition: all 0.2s ease;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Análise de Risco – RC Profissional Dentistas</h1>
+
+<p class="desc">
+Este formulário tem como objetivo avaliar seu perfil de risco profissional para indicação do seguro mais adequado.
+</p>
+
+<form id="form">
+
+<!-- SEÇÃO 1 -->
+<div class="section">
+<h3>1. Identificação</h3>
+
+<label class="label">Nome completo</label>
+<input name="nome" required>
+
+<label class="label">CPF</label>
+<input name="cpf">
+
+<label class="label">Telefone / WhatsApp</label>
+<input name="telefone" id="telefone" placeholder="(00) 00000-0000">
+
+<label class="label">E-mail</label>
+<input name="email">
+
+<label class="label">Número do CRO</label>
+<input name="cro">
+
+<label class="label">Tempo de atuação profissional</label>
+
+<div class="radio-group">
+    <label class="radio-option">
+        <input type="radio" name="tempo" value="Menos de 2 anos" required>
+        <span>Menos de 2 anos</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="tempo" value="2 a 5 anos">
+        <span>2 a 5 anos</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="tempo" value="5 a 10 anos">
+        <span>5 a 10 anos</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="tempo" value="Mais de 10 anos">
+        <span>Mais de 10 anos</span>
+    </label>
+</div>
+
+</div>
+
+<!-- SEÇÃO 2 -->
+<div class="section">
+<h3>2. Modelo de Atuação</h3>
+
+<label class="label">Como você atua hoje?</label>
+
+<div class="pill-container">
+<div class="pill"><input type="checkbox" name="atuacao[]" value="Autônomo">Autônomo</div>
+<div class="pill"><input type="checkbox" name="atuacao[]" value="Clínica própria">Clínica própria</div>
+<div class="pill"><input type="checkbox" name="atuacao[]" value="Terceiros">Clínica de terceiros</div>
+<div class="pill"><input type="checkbox" name="atuacao[]" value="Múltiplos">Mais de um local</div>
+</div>
+
+<label class="label">Você possui CNPJ (clínica ou empresa)?</label>
+<div class="radio-group radio-small">
+    <label class="radio-option">
+        <input type="radio" name="cnpj" value="Sim" required>
+        <span>Sim</span>
+    </label>
+    <label class="radio-option">
+        <input type="radio" name="cnpj" value="Não">
+        <span>Não</span>
+    </label>
+</div>
+
+</div>
+
+<!-- SEÇÃO 3 -->
+<div class="section">
+<h3>3. Especialidade e Procedimentos</h3>
+<label class="label">Quais são as principais área de atuação?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Clínica geral">Clínica geral</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Implantodontia">Implantodontia</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Ortodontia">Ortodontia</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Periodontia">Periodontia</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Cirurgia">Cirurgia</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Prótese">Prótese</div>
+    <div class="pill"><input type="checkbox" name="especialidade[]" value="Estética/Harmonização">Estética/Harmonização</div>
+</div>
+
+<label class="label">Quais procedimentos você realiza?</label>
+
+<span class="group-title">Clínicos</span>
+<div class="pill-container">
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Restaurações">Restaurações</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Canal">Canal</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Cirurgias">Cirurgias</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Implantes">Implantes</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Limpeza">Limpezas</div>
+</div>
+
+<span class="group-title">Estéticos</span>
+<div class="pill-container">
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="HOF">Harmonização</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Botox">Botox</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Preenchimento">Preenchimento</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Fios">Fios</div>
+<div class="pill"><input type="checkbox" name="procedimentos[]" value="Peeling">Peeling</div>
+</div>
+</div>
+
+<!-- SEÇÃO 4 -->
+<div class="section">
+<h3>4. Peso da Estética</h3>
+<label class="label">Qual percentual da sua receita vem de procedimentos estéticos?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="percentual" value="Não realizo estética">Não realizo estética</div>
+    <div class="pill"><input type="radio" name="percentual" value="Até 30%">Até 30%</div>
+    <div class="pill"><input type="radio" name="percentual" value="Entre 30% e 70%">Entre 30% e 70%</div>
+    <div class="pill"><input type="radio" name="percentual" value="Acima de 70%">Acima de 70%</div>
+</div>
+
+</div>
+
+<!-- SEÇÃO 5 -->
+<div class="section">
+<h3>5. Procedimentos de Maior Risco</h3>
+
+<div class="pill-container">
+<div class="pill"><input type="checkbox" name="risco[]" value="Ácido">Ácido hialurônico</div>
+<div class="pill"><input type="checkbox" name="risco[]" value="Periorbital">Periorbital</div>
+<div class="pill"><input type="checkbox" name="risco[]" value="Combinado">Combinados</div>
+<div class="pill"><input type="checkbox" name="risco[]" value="Sedação">Sedação</div>
+<div class="pill"><input type="checkbox" name="risco[]" value="Offlabel">Off-label</div>
+<div class="pill"><input type="checkbox" name="risco[]" value="Nenhum">Nenhum</div>
+</div>
+
+
+</div>
+
+<!-- SEÇÃO 6 -->
+<div class="section">
+<h3>6. Controles e Documentação</h3>
+
+<label class="label">Você utiliza Termo de Consentimento Livre e Informado(TCLI)?</label>
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="consentimento" value="Sempre">Sempre</div>
+    <div class="pill"><input type="radio" name="consentimento" value="Às vezes">Às vezes</div>
+    <div class="pill"><input type="radio" name="consentimento" value="Não utilizo">Não utilizo</div>
+</div>
+
+<label class="label">Você registra prontuário completo do paciente?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="prontuario" value="Sim">Sim</div>
+    <div class="pill"><input type="radio" name="prontuario" value="Parcialmente">Parcialmente</div>
+    <div class="pill"><input type="radio" name="prontuario" value="Não">Não</div>
+</div>
+
+<label class="label">Você realiza registro fotográfico (antes/depois)?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="fotos" value="Sempre">Sempre</div>
+    <div class="pill"><input type="radio" name="fotos" value="Às vezes">Às vezes</div>
+    <div class="pill"><input type="radio" name="fotos" value="Não">Não</div>
+</div>
+
+</div>
+
+<!-- SEÇÃO 7 -->
+<div class="section">
+<h3>7. Equipe e Estrutura</h3>
+
+<label class="label">Você possui equipe?</label>
+
+<div class="radio-group radio-small">
+    <label class="radio-option">
+        <input type="radio" name="equipe" value="Sim" required>
+        <span>Sim</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="equipe" value="Não">
+        <span>Não</span>
+    </label>
+</div>
+
+<div id="supervisaoBox" class="hidden">
+
+<label class="label">Você supervisiona diretamente esses profissionais?</label>
+
+<div class="radio-group radio-small">
+    <label class="radio-option">
+        <input type="radio" name="supervisao" value="Sim">
+        <span>Sim</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="supervisao" value="Não">
+        <span>Não</span>
+    </label>
+  
+</div>
+
+</div>
+
+<!-- SEÇÃO 8 -->
+<div class="section">
+<h3>8. Histórico de Risco</h3>
+
+<label class="label">Você já respondeu a processo?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="processo" value="Sim">Sim</div>
+    <div class="pill"><input type="radio" name="processo" value="Não">Não</div>
+</div>
+
+<label class="label">Possui reclamações em andamento?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="reclamacao" value="Sim">Sim</div>
+    <div class="pill"><input type="radio" name="reclamacao" value="Não">Não</div>
+</div>
+
+</div>
+
+<!-- SEÇÃO 9 -->
+<div class="section">
+<h3>9. Seguro Atual</h3>
+
+<label class="label">Possui seguro atualmente?</label>
+
+<div class="radio-group radio-small">
+    <label class="radio-option">
+        <input type="radio" name="seguro" value="Sim" required>
+        <span>Sim</span>
+    </label>
+
+    <label class="radio-option">
+        <input type="radio" name="seguro" value="Não">
+        <span>Não</span>
+    </label>
+</div>
+
+<div id="seguroBox" class="hidden">
+
+<label class="label">Já acionou seguro?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="sinistro" value="Sim" required >Sim</div>
+    <div class="pill"><input type="radio" name="sinistro" value="Não" required >Não</div>
+</div>
+
+<label class="label">Qual seguradora?</label>
+<input name="seguradora">
+
+<label class="label">Desde quando possui cobertura contínua?</label>
+<input name="tempo_seguro">
+
+</div>
+
+<!-- SEÇÃO 10 -->
+<div class="section">
+<h3>10. Limite de Cobertura</h3>
+
+<label class="label">Qual limite de cobertura você considera adequado?</label>
+
+<div class="pill-container">
+    <div class="pill"><input type="radio" name="lmi" value="Até R$ 200 mil">Até R$ 200 mil</div>
+    <div class="pill"><input type="radio" name="lmi" value="R$ 200 mil a R$ 500 mil">R$ 200 mil a R$ 500 mil</div>
+    <div class="pill"><input type="radio" name="lmi" value="R$ 500 mil a R$ 1 milhão">R$ 500 mil a R$ 1 milhão</div>
+    <div class="pill"><input type="radio" name="lmi" value="Acima de R$ 1 milhão">Acima de R$ 1 milhão</div>
+    <div class="pill"><input type="radio" name="lmi" value="Não sei">Não sei / quero orientação</div>
+</div>
+</div>
+
+<!-- SEÇÃO 11 -->
+<div class="section">
+<h3>11. Declaração</h3>
+
+<label class="checkbox-item">
+    <input type="checkbox" name="declaracao" required>
+    <span>Declaro que as informações prestadas são verdadeiras e refletem minha atuação profissional</span>
+</label>
+
+</div>
+
+<!-- OBSERVAÇÕES -->
+<div class="section">
+<h3>Observações</h3>
+
+<label class="label">Deseja acrescentar alguma informação relevante?</label>
+<textarea name="observacoes" rows="4"></textarea>
+
+</div>
+
+<button type="submit">Solicitar Análise</button>
+
+</form>
+
+</div>
+
+<script>
+document.querySelectorAll('.pill-container').forEach(container => {
+    const pills = container.querySelectorAll('.pill');
+
+    pills.forEach(p => {
+        const input = p.querySelector('input');
+
+        // estado inicial
+        if (input.checked) {
+            p.classList.add('selected');
+        }
+
+        p.addEventListener('click', () => {
+
+            if (input.type === 'radio') {
+                // desmarca todos do grupo
+                document.querySelectorAll(`input[name="${input.name}"]`).forEach(i => {
+                    i.checked = false;
+                });
+
+                input.checked = true;
+
+                // atualiza visual
+                pills.forEach(el => el.classList.remove('selected'));
+                p.classList.add('selected');
+
+            } else {
+                input.checked = !input.checked;
+                p.classList.toggle('selected');
+            }
+
+        });
+    });
+});</script>
+<script>
+const equipeRadios = document.querySelectorAll('input[name="equipe"]');
+const supervisaoBox = document.getElementById('supervisaoBox');
+
+equipeRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+
+        if (radio.value === 'Sim' && radio.checked) {
+            supervisaoBox.classList.remove('hidden');
+        }
+
+        if (radio.value === 'Não' && radio.checked) {
+            supervisaoBox.classList.add('hidden');
+        }
+
+    });
+});
+</script>
+<script>
+const seguroRadios = document.querySelectorAll('input[name="seguro"]');
+const seguroBox = document.getElementById('seguroBox');
+
+seguroRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+
+        if (radio.value === 'Sim' && radio.checked) {
+            seguroBox.classList.remove('hidden');
+        }
+
+        if (radio.value === 'Não' && radio.checked) {
+            seguroBox.classList.add('hidden');
+
+            // limpa campos
+            document.querySelectorAll('#seguroBox input').forEach(input => {
+                input.checked = false;
+                input.value = '';
+            });
+
+            // limpa visual das pills
+            document.querySelectorAll('#seguroBox .pill').forEach(p => {
+                p.classList.remove('selected');
+            });
+        }
+
+    });
+});
+</script>
+<script>
+document.getElementById("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch("https://script.google.com/macros/s/AKfycbyyRPWo7XlZfIAdrCdtAJix0YsS7I1CEkUvw0EIaXBbE26U5Kf0NQGPfAFzNJ3bXfMX/exec", {
+        method: "POST",
+        body: data
+    })
+    .then(() => {
+        document.querySelector(".container").innerHTML = `
+            <div style="display:flex; align-items:center; justify-content:center; height:60vh; text-align:center;">
+                <div>
+                    <h2 style="color:#1a73e8;">✅ Solicitação enviada!</h2>
+                    <p>Em breve entraremos em contato.<br></p>
+                </div>
+            </div>
+        `;
+    })
+    .catch(() => {
+        alert("Erro ao enviar. Tente novamente.");
+    });
+});
+</script>
+</body>
+</html>
